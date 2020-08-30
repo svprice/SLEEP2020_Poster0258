@@ -48,6 +48,9 @@ for (week in 1:14){
   filename = file.path(three_week_bins, paste(week,"_",week+3,".csv",sep=""))
   df <- read.csv(file = filename)
   
+  # Remove midpoint_sleep_mssd outliers (not presented in poster)
+  # df <- df[!(abs(df$midpoint_sleep_mssd - mean(df$midpoint_sleep_mssd))/sd(df$midpoint_sleep_mssd)) > 3,]
+  
   # To look at the initial analyses described in the abstract with only one cohort
   # before the poster was updated to two cohorts - uncomment the line below and examine
   # the week 3 time point, 
@@ -102,23 +105,28 @@ total <- merge(merge(merge(merge(merge(
 # Controlling for baseline plot
 p <- ggplot(data = total) + aes(x = week) + theme_grey(base_size = 16) + theme(legend.position = "top", 
                                                                     legend.text=element_text(size=20)) +
+    geom_rect(aes(xmin=7.5, xmax=8.5, ymin=0, ymax=Inf, fill="Spring Break")) + 
     geom_line(aes(y=pvals_midpoint_sleep, color="Midpoint Sleep"), size=1.) +
     geom_line(aes(y=pvals_midpoint_sleep_mssd, color="Midpoint Sleep MSSD"), size=1.) +
     geom_line(aes(y=pvals_TST, color="Total Sleep Time"), size=1.) +
     geom_hline(yintercept=0.05, size=.5) +
     labs(x = "Starting Week of 3 Week Bin", y = "p-val", color = "") +
     ggtitle("Controlling for Baseline CES-D") +
-    scale_x_continuous(breaks= seq(1, 14, len = 14)) 
+    scale_x_continuous(breaks= seq(1, 14, len = 14)) +
+    scale_fill_manual(values="lightyellow")
 
 # Not controlling for baseline plot
 q <- ggplot(data = total) + aes(x = week) + theme_grey(base_size = 16) +
+  geom_rect(aes(xmin=7.5, xmax=8.5, ymin=0, ymax=Inf, fill="Spring Break")) + 
   geom_line(aes(y=pvals_midpoint_sleep_nc, color="Midpoint Sleep"), size=1.) +
   geom_line(aes(y=pvals_midpoint_sleep_mssd_nc, color="Midpoint Sleep MSSD"), size=1.) +
   geom_line(aes(y=pvals_TST_nc, color="Total Sleep Time"), size=1.) +
   geom_hline(yintercept=0.05, size=.5) +
   labs(x = "Starting Week of 3 Week Bin", y = "p-val", color = "") +
   ggtitle("Not Controlling for Baseline CES-D") +
-  scale_x_continuous(breaks= seq(1, 14, len = 14)) 
+  scale_x_continuous(breaks= seq(1, 14, len = 14)) +
+  scale_fill_manual(values="lightyellow")
+
 
 
 # Combine plots
@@ -134,6 +142,27 @@ grid.arrange(q, p, legend, ncol=2, nrow = 2,
              layout_matrix = rbind(c(1,2), c(3,3)),
              widths = c(3, 2.7), heights = c(2.5, 0.2))
 
+
+
+# Individual model results for weeks of interest
+week = 8
+filename = file.path(three_week_bins, paste(week,"_",week+3,".csv",sep=""))
+df <- read.csv(file = filename)
+
+model_midpoint_sleep <- lm(postCESD_sum ~ midpoint_sleep + preCESD_sum, data=df)
+model_midpoint_sleep_mssd <- lm(postCESD_sum ~ midpoint_sleep_mssd + preCESD_sum, data=df)
+
+summary(model_midpoint_sleep)
+summary(model_midpoint_sleep_mssd)
+
+
+week = 9
+filename = file.path(three_week_bins, paste(week,"_",week+3,".csv",sep=""))
+df <- read.csv(file = filename)
+
+model_midpoint_sleep_mssd <- lm(postCESD_sum ~ midpoint_sleep_mssd + preCESD_sum, data=df)
+
+summary(model_midpoint_sleep_mssd)
 
 
 
