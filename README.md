@@ -1,4 +1,6 @@
-![Poster]("SLEEP2020_0258_Price.png")
+<img src="SLEEP2020_0258_Price.png"/>
+
+<a href="SLEEP2020_0258_Price.pdf">Download PDF</a>
 
 This is a poster presented at Virtual SLEEP 2020 with accompanying analysis code. Underlying data is sensitive, but can be made available under reasonable request.
 
