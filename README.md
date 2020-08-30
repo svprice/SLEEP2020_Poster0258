@@ -10,3 +10,4 @@ If you use these results, please cite:
 
 **Price, S., Chikersal, P., Doryab, A., Villalba, D., Dutcher, J., Tumminia, M., Cohen, S., Creswell, K., Mankoff, J. Dey, A., Creswell, D. _Early Semester Sleep Variability Predicts Depression Among College Students_. Poster presented at Virtual SLEEP 2020, August 2020.**
 
+Please send any questions regarding this work to <sprice1@andrew.cmu.edu>.
